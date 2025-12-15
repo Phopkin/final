@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fly Fishing Web App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- All styles kept on this page (per assignment instructions) -->
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --card-bg: #ffffff;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(circle at top, #1d3557 0, #0f172a 55%, #020617 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .app-shell {
+      max-width: 960px;
+      width: 100%;
+      background-color: rgba(15, 23, 42, 0.85);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+    }
+
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .app-title {
+      color: #e5e7eb;
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    .app-subtitle {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: #9ca3af;
+    }
+
+    .btn-home {
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background-color: #111827;
+      color: #e5e7eb;
+      border: 1px solid #4b5563;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .btn-home:hover {
+      background-color: #1f2937;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 800px) {
+      .app-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background-color: var(--card-bg);
+      border-radius: 14px;
+      padding: 16px 18px 18px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
+    }
+
+    .panel h2 {
+      margin: 0 0 6px;
+      font-size: 1.1rem;
+    }
+
+    .panel p.description {
+      margin: 0 0 14px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    select, input[type="range"] {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    select {
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 0.9rem;
+    }
+
+    .range-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .range-value {
+      min-width: 34px;
+      text-align: right;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    input[type="range"] {
+      accent-color: var(--accent);
+    }
+
+    .btn-row {
+      margin-top: 8px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-main, .btn-secondary {
+      border-radius: 999px;
+      padding: 7px 16px;
+      border: none;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-main {
+      background-color: var(--accent);
+      color: white;
+    }
+
+    .btn-main:hover {
+      background-color: #1d4ed8;
+    }
+
+    .btn-secondary {
+      background-color: #e5e7eb;
+      color: #111827;
+    }
+
+    .btn-secondary:hover {
+      background-color: #d1d5db;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .stat-card {
+      background-color: var(--accent-soft);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 0.8rem;
+    }
+
+    .stat-label {
+      color: #1d4ed8;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .stat-value {
+      font-size: 0.95rem;
+      color: #111827;
+    }
+
+    .progress-row {
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .progress-bar {
+      margin-top: 4px;
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background-color: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #22c55e, #eab308, #ef4444);
+      transition: width 0.25s ease-out;
+    }
+
+    .log-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 240px;
+      overflow-y: auto;
+      font-size: 0.85rem;
+    }
+
+    .log-item {
+      padding: 6px 8px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      background-color: #f3f4f6;
+    }
+
+    .log-item.good {
+      border-left: 4px solid #22c55e;
+    }
+
+    .log-item.miss {
+      border-left: 4px solid #ef4444;
+    }
+
+    .log-item.rare {
+      border-left: 4px solid #eab308;
+      background-color: #fef3c7;
+    }
+
+    .log-time {
+      color: #9ca3af;
+      font-size: 0.75rem;
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <div>
+        <h1 class="app-title">🎣 Fly Fishing Challenge</h1>
+        <p class="app-subtitle">
+          Pick a spot, choose your fly, set your casting power, and see what you can land in a single day on the river.
+        </p>
+      </div>
+      <a href="../index.html" class="btn-home">← Back to Home</a>
+    </header>
+
+    <div class="app-grid">
+      <!-- Controls -->
+      <section class="panel">
+        <h2>River Setup</h2>
+        <p class="description">
+          Each spot and fly type changes your odds. Experiment to find what works best.
+        </p>
+
+        <div class="field">
+          <label for="spotSelect">Choose a spot on the river</label>
+          <select id="spotSelect">
+            <option value="riffle">Fast riffle – active trout 💦</option>
+            <option value="seam">Current seam – balanced water 🌊</option>
+            <option value="pool">Deep pool – picky, big fish 🐟</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="flySelect">Choose your fly</label>
+          <select id="flySelect">
+            <option value="dry">Dry fly – great on riffles 🪰</option>
+            <option value="nymph">Nymph – reliable workhorse 🐛</option>
+            <option value="streamer">Streamer – chance for big fish 🐉</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="powerRange">Casting power</label>
+          <div class="range-row">
+            <input type="range" id="powerRange" min="10" max="100" value="60">
+            <div class="range-value"><span id="powerValue">60</span>%</div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button id="castBtn" class="btn-main">Cast Line</button>
+          <button id="newDayBtn" class="btn-secondary">Start New Day</button>
+        </div>
+      </section>
+
+      <!-- Stats + Log -->
+      <section class="panel">
+        <h2>Day on the Water</h2>
+        <p class="description">
+          You get 20 casts each “day.” Try to build a streak and land rare fish.
+        </p>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Casts Used</div>
+            <div class="stat-value"><span id="castsUsed">0</span> / <span id="castsLimit">20</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Fish Caught</div>
+            <div class="stat-value"><span id="fishCaught">0</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Best Streak</div>
+            <div class="stat-value"><span id="bestStreak">0</span> in a row</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Current Streak</div>
+            <div class="stat-value"><span id="currentStreak">0</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Rare Fish</div>
+            <div class="stat-value"><span id="rareCount">0</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Biggest Fish</div>
+            <div class="stat-value" id="biggestFish">—</div>
+          </div>
+        </div>
+
+        <div class="progress-row">
+          Day progress
+          <div class="progress-bar">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 12px; font-size: 0.95rem;">Catch Log</h3>
+        <ul id="logList" class="log-list"></ul>
+      </section>
+    </div>
+  </div>
+
+  <!-- All JavaScript kept on this page (per assignment instructions) -->
+  <script>
+    const castsLimit = 20;
+
+    const state = {
+      castsUsed: 0,
+      fishCaught: 0,
+      rareCount: 0,
+      currentStreak: 0,
+      bestStreak: 0,
+      biggestFish: null // { name, weight }
+    };
+
+    const spotData = {
+      riffle:   { baseChance: 55 },
+      seam:     { baseChance: 45 },
+      pool:     { baseChance: 35 }
+    };
+
+    const flyData = {
+      dry:      { modifier: 12,  favSpot: "riffle" },
+      nymph:    { modifier: 8,   favSpot: "seam" },
+      streamer: { modifier: 5,   favSpot: "pool" }
+    };
+
+    const fishTable = [
+      { name: "small rainbow trout",    minW: 0.4, maxW: 1.2, rare: false, weight: 40 },
+      { name: "brown trout",            minW: 0.8, maxW: 2.5, rare: false, weight: 25 },
+      { name: "cutthroat trout",        minW: 1.0, maxW: 3.0, rare: false, weight: 20 },
+      { name: "trophy rainbow trout",   minW: 3.0, maxW: 6.0, rare: true,  weight: 10 },
+      { name: "massive brown trout",    minW: 4.0, maxW: 8.0, rare: true,  weight: 5 }
+    ];
+
+    const els = {
+      powerRange:    document.getElementById("powerRange"),
+      powerValue:    document.getElementById("powerValue"),
+      castsUsed:     document.getElementById("castsUsed"),
+      castsLimit:    document.getElementById("castsLimit"),
+      fishCaught:    document.getElementById("fishCaught"),
+      rareCount:     document.getElementById("rareCount"),
+      currentStreak: document.getElementById("currentStreak"),
+      bestStreak:    document.getElementById("bestStreak"),
+      biggestFish:   document.getElementById("biggestFish"),
+      progressFill:  document.getElementById("progressFill"),
+      logList:       document.getElementById("logList"),
+      spotSelect:    document.getElementById("spotSelect"),
+      flySelect:     document.getElementById("flySelect"),
+      castBtn:       document.getElementById("castBtn"),
+      newDayBtn:     document.getElementById("newDayBtn")
+    };
+
+    els.castsLimit.textContent = castsLimit;
+    els.powerValue.textContent = els.powerRange.value;
+
+    els.powerRange.addEventListener("input", () => {
+      els.powerValue.textContent = els.powerRange.value;
+    });
+
+    els.castBtn.addEventListener("click", handleCast);
+    els.newDayBtn.addEventListener("click", resetDay);
+
+    function handleCast() {
+      if (state.castsUsed >= castsLimit) {
+        addLog("You’ve used all your casts for today. Start a new day to keep fishing.", "miss");
+        return;
+      }
+
+      const spotKey = els.spotSelect.value;
+      const flyKey = els.flySelect.value;
+      const power = Number(els.powerRange.value);
+
+      const prob = calculateHitChance(spotKey, flyKey, power);
+      const roll = Math.random() * 100;
+
+      state.castsUsed++;
+      updateProgress();
+
+      if (roll <= prob) {
+        const fish = generateFish();
+        state.fishCaught++;
+        state.currentStreak++;
+        if (state.currentStreak > state.bestStreak) {
+          state.bestStreak = state.currentStreak;
+        }
+        if (fish.rare) state.rareCount++;
+        if (!state.biggestFish || fish.weight > state.biggestFish.weight) {
+          state.biggestFish = fish;
+        }
+
+        addLog(
+          `You hook a ${fish.weight.toFixed(1)} lb ${fish.name}!`,
+          fish.rare ? "rare" : "good"
+        );
+      } else {
+        state.currentStreak = 0;
+        addLog("No takers on that cast. Adjust your drift and try again.", "miss");
+      }
+
+      renderStats();
+    }
+
+    function calculateHitChance(spotKey, flyKey, power) {
+      const spot = spotData[spotKey];
+      const fly = flyData[flyKey];
+      let chance = spot.baseChance + fly.modifier;
+
+      if (fly.favSpot === spotKey) {
+        chance += 8;
+      }
+
+      const centered = power - 60;
+      chance += centered * 0.5;
+
+      if (power < 30) chance -= 8;
+      if (power > 90) chance -= 10;
+
+      if (state.castsUsed > castsLimit * 0.7) {
+        chance -= 4;
+      }
+
+      return Math.max(5, Math.min(90, chance));
+    }
+
+    function generateFish() {
+      const totalWeight = fishTable.reduce((sum, f) => sum + f.weight, 0);
+      let roll = Math.random() * totalWeight;
+      let chosen = fishTable[0];
+
+      for (const f of fishTable) {
+        if (roll < f.weight) {
+          chosen = f;
+          break;
+        }
+        roll -= f.weight;
+      }
+
+      const w = randomBetween(chosen.minW, chosen.maxW);
+      return { name: chosen.name, rare: chosen.rare, weight: w };
+    }
+
+    function randomBetween(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
+    function addLog(message, type) {
+      const li = document.createElement("li");
+      li.className = `log-item ${type}`;
+
+      const timeSpan = document.createElement("div");
+      timeSpan.className = "log-time";
+      timeSpan.textContent = new Date().toLocaleTimeString();
+
+      const msgSpan = document.createElement("div");
+      msgSpan.textContent = message;
+
+      li.appendChild(timeSpan);
+      li.appendChild(msgSpan);
+
+      els.logList.insertBefore(li, els.logList.firstChild);
+
+      while (els.logList.children.length > 30) {
+        els.logList.removeChild(els.logList.lastChild);
+      }
+    }
+
+    function renderStats() {
+      els.castsUsed.textContent = state.castsUsed;
+      els.fishCaught.textContent = state.fishCaught;
+      els.rareCount.textContent = state.rareCount;
+      els.currentStreak.textContent = state.currentStreak;
+      els.bestStreak.textContent = state.bestStreak;
+
+      if (state.biggestFish) {
+        els.biggestFish.textContent =
+          `${state.biggestFish.weight.toFixed(1)} lb ${state.biggestFish.name}`;
+      } else {
+        els.biggestFish.textContent = "—";
+      }
+    }
+
+    function updateProgress() {
+      const pct = (state.castsUsed / castsLimit) * 100;
+      els.progressFill.style.width = pct + "%";
+    }
+
+    function resetDay() {
+      state.castsUsed = 0;
+      state.fishCaught = 0;
+      state.rareCount = 0;
+      state.currentStreak = 0;
+      state.bestStreak = 0;
+      state.biggestFish = null;
+      els.logList.innerHTML = "";
+      els.progressFill.style.width = "0%";
+      renderStats();
+      addLog("Fresh day on the river. Tight lines! 🎣", "good");
+    }
+
+    resetDay();
+  </script>
+</body>
+</html>

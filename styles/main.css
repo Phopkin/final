@@ -1,0 +1,20 @@
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: transparent;
+}
+
+/* Hero image on home */
+.hero-photo {
+    max-width: 320px;
+    border: 4px solid #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Card tweaks */
+.card-title {
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 0.95rem;
+}

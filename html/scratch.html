@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fly Fishing – Scratch Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- FIXED CSS PATH -->
+    <link rel="stylesheet" href="../styles/scratch.css">
+</head>
+
+
+<body id="top" style="background-color:#cfeeff;">
+
+    <!-- NAVIGATION -->
+    <nav class="nav-bar">
+        <div class="nav-inner">
+            <a href="../index.html" class="nav-link">Home</a>
+            <a href="#gear" class="nav-link">Gear</a>
+            <a href="#video" class="nav-link">Casting Video</a>
+            <a href="#tableau-section" class="nav-link">Tableau Viz</a>
+            <a href="webapp.html" class="nav-link">Web App</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="hero-text">
+            <h1>Fly Fishing Adventures</h1>
+            <p class="subtitle">
+                Standing in cold rivers, watching the sunrise, and pretending every cast was on purpose.
+                Fly fishing is a hobby that can eventually become a lifestyle.
+            </p>
+        </div>
+    </header>
+
+    <!-- CONTENT WRAPPER -->
+    <div class="content-wrapper">
+
+        <!-- WHY I LOVE FLY FISHING -->
+        <section class="card">
+            <h2>Why I Love Fly Fishing</h2>
+            <p>
+                Fly fishing is one of my favorite ways to spend time outside. It’s a mix of patience, skill,
+                and problem-solving. You’re constantly reading the water, adjusting your approach, and trying
+                to “match the hatch” so the fish actually care about your fly.
+            </p>
+
+            <figure class="image-frame">
+                <img src="../photos/Fly_fishing_2.jpg" alt="Person fly fishing in a river">
+                <figcaption>A calm morning on a mountain river.</figcaption>
+            </figure>
+        </section>
+
+        <!-- NESTED LIST -->
+        <section id="gear" class="card">
+            <h2>Basic Setup for a Successful Day</h2>
+
+            <ol>
+                <li>Core Gear
+                    <ul>
+                        <li>5-weight fly rod and reel</li>
+                        <li>Floating fly line with tapered leader</li>
+                        <li>Waders and boots</li>
+                    </ul>
+                </li>
+                <li>Fly Selection
+                    <ul>
+                        <li>Dry flies (Adams, Elk Hair Caddis)</li>
+                        <li>Nymphs (Pheasant Tail, Hare’s Ear)</li>
+                        <li>Streamers (Woolly Bugger)</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <!-- YOUTUBE VIDEO -->
+        <section id="video" class="card">
+            <h2>Fly Casting Basics</h2>
+
+            <div class="video-wrapper">
+                <iframe
+                    src="https://www.youtube.com/embed/0-9GqI-f5PE"
+                    title="Fly casting basics"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </section>
+
+        <!-- TABLEAU EMBED (FIXED + STABLE) -->
+        <section id="tableau-section" class="card">
+            <h2>Trout Fishing in Tennessee</h2>
+
+            <div class="tableauPlaceholder" id="vizTNTrout" style="position: relative">
+                <noscript>
+                    <a href="https://public.tableau.com/views/TN_trout_fishing/Presentation">
+                        <img src="https://public.tableau.com/static/images/TN/TN_trout_fishing/Presentation/1.png"
+                             alt="TN Trout Fishing Map" />
+                    </a>
+                </noscript>
+
+                <object class="tableauViz" style="display:none;">
+                    <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+                    <param name="embed_code_version" value="3" />
+                    <param name="site_root" value="" />
+                    <param name="name" value="TN_trout_fishing/Presentation" />
+                    <param name="tabs" value="no" />
+                    <param name="toolbar" value="yes" />
+                </object>
+            </div>
+
+            <script type="text/javascript">
+                var divElement = document.getElementById('vizTNTrout');
+                var vizElement = divElement.getElementsByTagName('object')[0];
+                vizElement.style.width = '100%';
+                vizElement.style.height = '900px';
+                var scriptElement = document.createElement('script');
+                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                vizElement.parentNode.insertBefore(scriptElement, vizElement);
+            </script>
+        </section>
+
+        <!-- BACK TO TOP -->
+        <section class="card">
+            <a href="#top" class="back-to-top">Back to top ↑</a>
+        </section>
+
+    </div>
+
+</body>
+</html>
